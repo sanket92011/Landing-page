@@ -592,7 +592,7 @@ function App() {
         Experience the <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">App</span>
       </h2>
       <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-        Get a glimpse of Tangle's beautiful interface and powerful features designed to help you find meaningful connections.
+        Get a glimpse of Flamora's beautiful interface and powerful features designed to help you find meaningful connections.
       </p>
     </div>
 

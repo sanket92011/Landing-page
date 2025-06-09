@@ -80,7 +80,7 @@ const AppScreenshot = ({ title, description, delay = 0 }) => {
                     <div className="flex items-center justify-between mb-8">
                       <div className="flex items-center">
                         <Heart className="w-6 h-6 text-white mr-2" />
-                        <span className="text-white font-bold text-lg">Tangle</span>
+                        <span className="text-white font-bold text-lg">Flamora</span>
                       </div>
                       <div className="flex space-x-3">
                         <Bell className="w-5 h-5 text-white" />
@@ -213,7 +213,7 @@ const AppScreenshot = ({ title, description, delay = 0 }) => {
       
       {/* Description */}
       <div className="mt-6 text-center">
-        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
+      <h3 className="text-2xl font-bold text-black mb-2 group-hover:text-yellow-400 transition-colors">
           {title}
         </h3>
         <p className="text-white/80 leading-relaxed">
