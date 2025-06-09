@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MessageCircle, Video, Phone, MapPin, Calendar, Star, Download, Play, ChevronLeft, ChevronRight, Clock, MapPinned, Sparkles, Users, Trophy, Coffee, Shield, Zap, CheckCircle, ArrowRight, Smile, Camera, Music, Gift } from 'lucide-react';
+import AppScreenshot from './components/AppScreenshot'; // adjust the path as needed
 
 const swipeProfiles = [
   {
@@ -581,6 +582,41 @@ function App() {
           </div>
         </div>
       </section>
+<section
+  className="relative z-10 py-20"
+  style={{ backgroundColor: '#fcf9fe' }}
+>
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="text-center mb-16">
+      <h2 className="text-5xl font-bold text-gray-900 mb-6">
+        Experience the <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">App</span>
+      </h2>
+      <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+        Get a glimpse of Tangle's beautiful interface and powerful features designed to help you find meaningful connections.
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-12 items-center justify-center">
+      <AppScreenshot
+        title="Home Screen"
+        description="Discover compatible profiles with our advanced matching algorithm and compatibility scores."
+        delay={0}
+      />
+      
+      <AppScreenshot
+        title="Chat Screen"
+        description="Connect through secure messaging with photos, voice notes, and fun emoji reactions."
+        delay={200}
+      />
+      
+      <AppScreenshot
+        title="Video Call Screen"
+        description="High-quality video and voice calls to build genuine connections before meeting."
+        delay={400}
+      />
+    </div>
+  </div>
+</section>
 
       {/* Features Section */}
       <section id="features" className="py-20 bg-gradient-to-br from-gray-50 to-purple-50 relative overflow-hidden">
