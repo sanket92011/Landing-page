@@ -345,7 +345,7 @@ function App() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(prev => ({ ...prev, [entry.target.id]: true }));
-            if (entry.target.id === 'stats-section') {
+            if (entry.target.id === 'stats') {
               animateStats();
             }
           }
@@ -424,7 +424,15 @@ function App() {
   };
 
   const currentProfile = swipeProfiles[currentProfileIndex];
-
+const [isScrolled, setIsScrolled] = useState(false);
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    setIsScrolled(scrollTop > 100);
+  };
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-500 via-purple-500 to-blue-600 overflow-hidden">
       {/* Floating Background Elements */}
@@ -461,25 +469,25 @@ function App() {
       {/* Hero Section */}
       <div ref={heroRef} className="relative overflow-hidden">
         <div className="container mx-auto px-6 py-12">
-          <nav className="flex items-center justify-between mb-16 animate-fade-in relative z-20">
+<nav className={`flex items-center justify-between mb-16 transition-all duration-300 z-50 ${isScrolled ? 'fixed top-0 left-0 right-0 bg-gradient-to-r from-pink-600 via-purple-700 to-blue-700 backdrop-blur-lg bg-opacity-95 shadow-lg px-6 py-4 mx-0' : 'relative animate-fade-in'}`}>
             <div className="flex items-center space-x-2 group">
               <Heart className="w-8 h-8 text-white fill-current group-hover:animate-pulse transition-all" />
               <span className="text-2xl font-bold text-white group-hover:text-yellow-300 transition-colors">Flamora</span>
             </div>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
-              {['Features', 'Demo', 'Stats', 'Reviews'].map((item, index) => (
-                <a 
-                  key={item}
-                  href={`#${item.toLowerCase()}`} 
-                  className="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-110 transform"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
+                    {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-8">
+            {['Features', 'Demo', 'Stats', 'Reviews', 'Experience the App', 'Plan A Date'].map((item, index) => (
+              <a 
+                key={item}
+                href={`#${item.toLowerCase().replace(/ /g, '-')}`} 
+                className="text-white hover:text-yellow-300 transition-all duration-300 hover:scale-110 transform"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {item}
+              </a>
+            ))}
+          </div>
 
             {/* Mobile Hamburger Icon */}
             <button
@@ -491,12 +499,13 @@ function App() {
             </button>
 
             {/* Mobile Menu Overlay */}
+           {/* Mobile Menu Overlay */}
             {mobileMenuOpen && (
-              <div className="absolute top-full right-0 left-0 bg-gradient-to-br from-pink-600 via-purple-700 to-blue-700 shadow-lg rounded-b-3xl mx-6 mt-2 p-6 flex flex-col space-y-6 z-30">
-                {['Features', 'Demo', 'Stats', 'Reviews'].map((item) => (
+              <div className={`absolute top-full right-0 left-0 bg-gradient-to-br from-pink-600 via-purple-700 to-blue-700 shadow-lg rounded-b-3xl p-6 flex flex-col space-y-6 z-30 ${isScrolled ? 'mx-0' : 'mx-6 mt-2'}`}>
+                {['Features', 'Demo', 'Stats', 'Reviews', 'Experience the app', 'Plan A Date'].map((item) => (
                   <a
                     key={item}
-                    href={`#${item.toLowerCase()}`}
+                    href={`#${item.toLowerCase().replace(/ /g, '-')}`} // Adjusting the href for new items
                     className="text-white text-xl font-semibold hover:text-yellow-300 transition-all duration-300"
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -506,6 +515,7 @@ function App() {
               </div>
             )}
           </nav>
+{isScrolled && <div className="h-20"></div>}
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
@@ -569,10 +579,10 @@ function App() {
       </div>
 
       {/* Stats Section */}
-      <section id="stats-section" className="py-20 bg-white relative overflow-hidden">
+      <section id="stats" className="py-20 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-50 to-pink-50 opacity-50" />
         <div className="container mx-auto px-6 relative">
-          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible['stats-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible['stats'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
               Trusted by <span className="text-purple-600 animate-pulse">Millions</span>
             </h2>
@@ -587,7 +597,7 @@ function App() {
               return (
                 <div 
                   key={index} 
-                  className={`text-center group transition-all duration-500 ${isVisible['stats-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                  className={`text-center group transition-all duration-500 ${isVisible['stats'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                   style={{ transitionDelay: `${index * 0.2}s` }}
                 >
                   <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300 group-hover:shadow-2xl">
@@ -602,7 +612,7 @@ function App() {
             })}
           </div>
 
-          <div className={`mt-16 text-center transition-all duration-1000 ${isVisible['stats-section'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '1s' }}>
+          <div className={`mt-16 text-center transition-all duration-1000 ${isVisible['stats'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '1s' }}>
             <div className="inline-flex items-center bg-gradient-to-r from-purple-50 to-pink-50 px-8 py-4 rounded-full hover:scale-110 transition-all duration-300 hover:shadow-lg group">
               <Trophy className="w-6 h-6 text-yellow-500 mr-3 group-hover:animate-bounce" />
               <span className="text-gray-700 font-medium">#1 Dating App of 2024</span>
@@ -610,7 +620,7 @@ function App() {
           </div>
         </div>
       </section>
-<section
+<section id="experience-the-app" 
   className="relative z-10 py-20"
   style={{ backgroundColor: '#fcf9fe' }}
 >
@@ -801,14 +811,14 @@ function App() {
               style={{ width: `${((currentProfileIndex + 1) / swipeProfiles.length) * 100}%` }}
             />
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
 </section>
 
       {/* Date Planning Tool */}
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50 relative overflow-hidden">
+      <section id = "plan-a-date" className="py-20 bg-gradient-to-br from-purple-50 to-pink-50 relative overflow-hidden">
         <div className="absolute inset-0">
           {[...Array(15)].map((_, i) => (
             <div
