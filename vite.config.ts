@@ -2,9 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
-export default defineConfig({base:'/Dating-app-Launch-page/',
+export default defineConfig({base:'/Landing-page/',
   plugins: [react()],
-  optimizeDeps: {
+  optimizeDeps: { 
     exclude: ['lucide-react'],
   },
 });

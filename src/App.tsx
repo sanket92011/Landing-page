@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Heart, MessageCircle, Video, Phone, MapPin, Calendar, Star, Download, Play, ChevronLeft, ChevronRight, Clock, MapPinned, Sparkles, Users, Trophy, Coffee, Shield, Zap, CheckCircle, ArrowRight, Smile, Camera, Music, Gift } from 'lucide-react';
+import { Menu, X,Heart, MessageCircle, Video, Phone, MapPin, Calendar, Star, Download, Play, ChevronLeft, ChevronRight, Clock, MapPinned, Sparkles, Users, Trophy, Coffee, Shield, Zap, CheckCircle, ArrowRight, Smile, Camera, Music, Gift } from 'lucide-react';
 import AppScreenshot from './components/AppScreenshot'; // adjust the path as needed
 
 const swipeProfiles = [
@@ -282,6 +282,7 @@ const floatingElements = [
 ];
 
 function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [datePlan, setDatePlan] = useState({
     date: '',
@@ -460,11 +461,13 @@ function App() {
       {/* Hero Section */}
       <div ref={heroRef} className="relative overflow-hidden">
         <div className="container mx-auto px-6 py-12">
-          <nav className="flex items-center justify-between mb-16 animate-fade-in">
+          <nav className="flex items-center justify-between mb-16 animate-fade-in relative z-20">
             <div className="flex items-center space-x-2 group">
               <Heart className="w-8 h-8 text-white fill-current group-hover:animate-pulse transition-all" />
               <span className="text-2xl font-bold text-white group-hover:text-yellow-300 transition-colors">Flamora</span>
             </div>
+
+            {/* Desktop Menu */}
             <div className="hidden md:flex space-x-8">
               {['Features', 'Demo', 'Stats', 'Reviews'].map((item, index) => (
                 <a 
@@ -477,6 +480,31 @@ function App() {
                 </a>
               ))}
             </div>
+
+            {/* Mobile Hamburger Icon */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-md text-white hover:text-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+            </button>
+
+            {/* Mobile Menu Overlay */}
+            {mobileMenuOpen && (
+              <div className="absolute top-full right-0 left-0 bg-gradient-to-br from-pink-600 via-purple-700 to-blue-700 shadow-lg rounded-b-3xl mx-6 mt-2 p-6 flex flex-col space-y-6 z-30">
+                {['Features', 'Demo', 'Stats', 'Reviews'].map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className="text-white text-xl font-semibold hover:text-yellow-300 transition-all duration-300"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            )}
           </nav>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -674,108 +702,110 @@ function App() {
       </section>
 
       {/* Interactive Swipe Demo */}
-      <section id="demo" className="py-20 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-30" />
-        
-        <div className="container mx-auto px-6 relative">
-          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible['demo'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
-              Try Our <span className="text-purple-600 animate-pulse">Smart Matching</span>
-            </h2>
-            <p className="text-xl text-gray-600 mb-8">Experience the magic of finding your perfect match with our advanced AI algorithm</p>
-            <div className="flex justify-center space-x-8 text-sm text-gray-500">
-              <div className="flex items-center group hover:text-red-500 transition-colors">
-                <ChevronLeft className="w-4 h-4 mr-1 text-red-500 group-hover:animate-bounce" />
-                <span>Swipe left to pass</span>
-              </div>
-              <div className="flex items-center group hover:text-green-500 transition-colors">
-                <Heart className="w-4 h-4 mr-1 text-green-500 fill-current group-hover:animate-pulse" />
-                <span>Swipe right to like</span>
-              </div>
-            </div>
-          </div>
+<section id="demo" className="py-20 bg-white relative overflow-hidden">
+  <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-30" />
+  
+  <div className="container mx-auto px-6 relative">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+        Try Our <span className="text-purple-600 animate-pulse">Smart Matching</span>
+      </h2>
+      <p className="text-xl text-gray-600 mb-8">Experience the magic of finding your perfect match with our advanced AI algorithm</p>
+      <div className="flex justify-center space-x-8 text-sm text-gray-500">
+        <div className="flex items-center group hover:text-red-500 transition-colors">
+          <ChevronLeft className="w-4 h-4 mr-1 text-red-500 group-hover:animate-bounce" />
+          <span>Swipe left to pass</span>
+        </div>
+        <div className="flex items-center group hover:text-green-500 transition-colors">
+          <Heart className="w-4 h-4 mr-1 text-green-500 fill-current group-hover:animate-pulse" />
+          <span>Swipe right to like</span>
+        </div>
+      </div>
+    </div>
 
-          <div className="max-w-md mx-auto">
-            <div className={`relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 transition-all duration-500 ${swipeAnimation} ${isVisible['demo'] ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-              <div className="relative h-96">
-                <img 
-                  src={currentProfile.image} 
-                  alt={currentProfile.name}
-                  className="w-full h-full object-cover transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                
-                {/* Compatibility Badge */}
-                <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">
-                  {currentProfile.compatibility}% Match
-                </div>
-                
-                <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
-                  {currentProfile.distance}
-                </div>
-                
-                {/* Like Animation Overlay */}
-                {likeAnimation && (
-                  <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center animate-pulse">
-                    <div className="text-6xl text-green-500 animate-bounce">💚</div>
-                  </div>
-                )}
-                
-                {/* Pass Animation Overlay */}
-                {passAnimation && (
-                  <div className="absolute inset-0 bg-red-500/20 flex items-center justify-center animate-pulse">
-                    <div className="text-6xl text-red-500 animate-bounce">💔</div>
-                  </div>
-                )}
-                
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <h3 className="text-2xl font-bold mb-2 animate-fade-in">{currentProfile.name}, {currentProfile.age}</h3>
-                  <p className="text-white/90 mb-3 animate-fade-in" style={{ animationDelay: '0.2s' }}>{currentProfile.bio}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {currentProfile.interests.map((interest, index) => (
-                      <span 
-                        key={index} 
-                        className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm animate-fade-in hover:bg-white/30 transition-all cursor-pointer"
-                        style={{ animationDelay: `${0.3 + index * 0.1}s` }}
-                      >
-                        {interest}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-6 bg-white">
-                <div className="flex justify-center gap-8">
-                  <button 
-                    onClick={() => handleSwipe('left')}
-                    className="w-16 h-16 bg-gray-100 hover:bg-red-100 rounded-full flex items-center justify-center transition-all transform hover:scale-125 hover:rotate-12 group active:scale-95"
-                  >
-                    <ChevronLeft className="w-8 h-8 text-red-500 group-hover:text-red-600 group-hover:animate-bounce" />
-                  </button>
-                  <button 
-                    onClick={() => handleSwipe('right')}
-                    className="w-16 h-16 bg-gray-100 hover:bg-green-100 rounded-full flex items-center justify-center transition-all transform hover:scale-125 hover:rotate-12 group active:scale-95"
-                  >
-                    <Heart className="w-8 h-8 text-green-500 fill-current group-hover:text-green-600 group-hover:animate-pulse" />
-                  </button>
-                </div>
-                <p className="text-center text-gray-500 text-sm mt-4">
-                  Profile {currentProfileIndex + 1} of {swipeProfiles.length}
-                </p>
-                
-                {/* Profile Progress Bar */}
-                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                  <div 
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${((currentProfileIndex + 1) / swipeProfiles.length) * 100}%` }}
-                  />
-                </div>
-              </div>
+    <div className="max-w-md mx-auto">
+      <div
+        className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
+        style={{ transformOrigin: 'center center' }}
+      >
+        <div className="relative h-96">
+          <img 
+            src={currentProfile.image} 
+            alt={currentProfile.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          
+          {/* Compatibility Badge */}
+          <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+            {currentProfile.compatibility}% Match
+          </div>
+          
+          <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
+            {currentProfile.distance}
+          </div>
+          
+          {/* Like Animation Overlay */}
+          {likeAnimation && (
+            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center animate-pulse">
+              <div className="text-6xl text-green-500 animate-bounce">💚</div>
+            </div>
+          )}
+          
+          {/* Pass Animation Overlay */}
+          {passAnimation && (
+            <div className="absolute inset-0 bg-red-500/20 flex items-center justify-center animate-pulse">
+              <div className="text-6xl text-red-500 animate-bounce">💔</div>
+            </div>
+          )}
+          
+          <div className="absolute bottom-6 left-6 right-6 text-white">
+            <h3 className="text-2xl font-bold mb-2">{currentProfile.name}, {currentProfile.age}</h3>
+            <p className="text-white/90 mb-3">{currentProfile.bio}</p>
+            <div className="flex flex-wrap gap-2">
+              {currentProfile.interests.map((interest, index) => (
+                <span 
+                  key={index} 
+                  className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm hover:bg-white/30 transition-all cursor-pointer"
+                >
+                  {interest}
+                </span>
+              ))}
             </div>
           </div>
         </div>
-      </section>
+        
+        <div className="p-6 bg-white">
+          <div className="flex justify-center gap-8">
+            <button 
+              onClick={() => handleSwipe('left')}
+              className="w-16 h-16 bg-gray-100 hover:bg-red-100 rounded-full flex items-center justify-center transition-all transform hover:scale-125 hover:rotate-12 group active:scale-95"
+            >
+              <ChevronLeft className="w-8 h-8 text-red-500 group-hover:text-red-600 group-hover:animate-bounce" />
+            </button>
+            <button 
+              onClick={() => handleSwipe('right')}
+              className="w-16 h-16 bg-gray-100 hover:bg-green-100 rounded-full flex items-center justify-center transition-all transform hover:scale-125 hover:rotate-12 group active:scale-95"
+            >
+              <Heart className="w-8 h-8 text-green-500 fill-current group-hover:text-green-600 group-hover:animate-pulse" />
+            </button>
+          </div>
+          <p className="text-center text-gray-500 text-sm mt-4">
+            Profile {currentProfileIndex + 1} of {swipeProfiles.length}
+          </p>
+          
+          {/* Profile Progress Bar */}
+          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+            <div 
+              className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full transition-all duration-500"
+              style={{ width: `${((currentProfileIndex + 1) / swipeProfiles.length) * 100}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Date Planning Tool */}
       <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50 relative overflow-hidden">
